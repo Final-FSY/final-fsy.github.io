@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>家庭信息屏 · 项目详情</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <nav>
+    <a class="logo" href="index.html">🦐 范小皮</a>
+    <div>
+      <a href="pipixia.html">皮皮虾</a>
+      <a href="games.html">游戏</a>
+    </div>
+  </nav>
+
+  <main>
+
+    <!-- 图片占位：以后换成实拍照片 -->
+    <div class="placeholder-img">📷 图片待补充</div>
+
+    <span class="tag" style="display:inline-block; margin-bottom:12px">InfoScreen</span>
+    <h2 style="margin-bottom:4px">家庭信息屏</h2>
+    <p class="doc-line">用一台越狱的 iPhone 6s Plus 改造成的家庭信息面板。</p>
+
+    <section class="reveal">
+      <h2>起因</h2>
+      <div class="card">
+        <p>家里缺一个"一抬头就能看到"的信息面板：时间、天气、今天的新闻、家里人的留言。买现成的信息屏不便宜，正好手头有一台闲置的 iPhone 6s Plus，决定自己动手。</p>
+      </div>
+    </section>
+
+    <section class="reveal">
+      <h2>方案与实现</h2>
+      <div class="card">
+        <p class="doc-line"><b>设备</b>：iPhone 6s Plus（iOS 15.8），palera1n 越狱，TrollStore 安装应用。</p>
+        <p class="doc-line"><b>应用</b>：Theos 工具链开发的原生 Objective-C 应用（在树莓派上交叉编译）。功能包括：</p>
+        <p style="margin: 8px 0 4px 18px">· 大字时钟，每秒刷新；</p>
+        <p style="margin: 4px 0 4px 18px">· 日期与天气卡片（Open-Meteo 免费接口，直连涿州数据）；</p>
+        <p style="margin: 4px 0 4px 18px">· 新闻 5 条（RSS 源：少数派、果壳、BBC 中文）；</p>
+        <p style="margin: 4px 0 4px 18px">· 家庭备忘录；电量显示；固定竖屏深色主题；隐藏状态栏。</p>
+        <p class="doc-line" style="margin-top:12px"><b>数据服务</b>：一个零依赖的 Python 服务（只用标准库），每 10 分钟抓一次天气和新闻，加上备忘录内容，聚合成一个 data.json，手机 App 通过 HTTP 读取。最初计划放在 Orange Pi 上，后来 Orange Pi 转职成了电视盒子，服务就挪到了常开的树莓派上（:8081，现在每天都自动更新名言/科普/备忘录内容）。</p>
+        <p class="doc-line"><b>图标</b>：用 Python PIL 脚本生成 18 个尺寸的深底白时钟图标。</p>
+      </div>
+    </section>
+
+    <section class="reveal">
+      <h2>踩过的坑</h2>
+      <div class="card">
+        <p class="doc-line">· Theos 在 Linux 上必须单独装工具链（clang 等），否则编译报路径不存在；</p>
+        <p class="doc-line">· GitHub 下载 SDK 直连间歇性超时，最后走了 gh.ddlc.top 代理才稳定；</p>
+        <p class="doc-line">· 图标生成要放到项目 Resources 目录，生成到编译产物目录会被覆盖；</p>
+        <p class="doc-line">· 下载脚本要支持断点续传（curl -C -），否则大文件下到一半就失败。</p>
+      </div>
+    </section>
+
+    <section class="reveal">
+      <h2>现状与下一步</h2>
+      <div class="card">
+        <p class="doc-line">App 已编译打包（.ipa 和 .deb）；数据服务已在树莓派上常驻运行，内容每日自动更新。</p>
+        <p class="doc-line">待办：天气刷新频率调优、扩充新闻源。</p>
+      </div>
+    </section>
+
+    <section class="reveal" style="text-align:center">
+      <a class="btn btn-ghost" href="index.html#projects">← 返回项目</a>
+    </section>
+
+  </main>
+
+  <footer>
+    <p>© <span id="year">2026</span> 范小皮 · 由树莓派 + eu.org 免费域名驱动 🦐</p>
+  </footer>
+
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) entry.target.classList.add("visible");
+      });
+    }, { threshold: 0.15 });
+    document.querySelectorAll(".reveal").forEach((el) => observer.observe(el));
+  </script>
+
+</body>
+</html>

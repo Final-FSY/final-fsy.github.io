@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>A Dark Room（小黑屋） · 游戏介绍</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" href="favicon.svg">
+</head>
+
+<body>
+
+  <nav>
+    <a class="logo" href="index.html">🦐 范小皮</a>
+    <div>
+      <a href="pipixia.html">皮皮虾</a>
+      <a href="games.html">游戏</a>
+    </div>
+  </nav>
+
+  <main>
+
+    <span class="tag" style="display:inline-block; margin-bottom:12px">MPL-2.0</span>
+    <h2 style="margin-bottom:4px">A Dark Room（小黑屋）</h2>
+    <p class="doc-line">文字冒险 + 资源管理（官方简体中文版）：生火、打猎、造房子、建村庄，慢慢揭开这个世界的秘密。</p>
+
+    <div class="reveal" style="margin: 18px 0 8px">
+      <a class="btn btn-primary" href="games/adarkroom/index.html?lang=zh_cn">开始游戏 →</a>
+      <a class="btn btn-ghost" href="games.html">← 返回大厅</a>
+    </div>
+
+    <section class="reveal">
+      <h2>这是什么游戏</h2>
+      <div class="card">
+        <p class="doc-line">一款'留白到极致'的文字冒险游戏：开场只有一簇篝火和一行字——'火灭了，你得生火'。没有教程、没有剧情对话，一切都要你自己点出来。</p>
+        <p class="doc-line">前半段是资源管理（生火、打猎、收集木材、建造村庄），后半段是探索冒险（进入洞穴、森林、城市，解锁武器和战斗），最终目标是逃离这个世界。</p>
+        <p class="doc-line">画面只有文字和数字，但气氛渲染一流，玩进去会上瘾。</p>
+      </div>
+    </section>
+    <section class="reveal">
+      <h2>怎么操作</h2>
+      <div class="card">
+        <p class="doc-line">纯鼠标/触屏点击，没有键盘操作，手机上玩也很舒服。</p>
+        <p class="doc-line">界面是一个个可点击的选项按钮，比如'生火'、'打猎'，点击后数字会增加。</p>
+      </div>
+    </section>
+    <section class="reveal">
+      <h2>新手攻略（前期流程）</h2>
+      <div class="card">
+        <p class="doc-line">第 1 步：点'生火'。没有火，一切都白搭。</p>
+        <p class="doc-line">第 2 步：'打猎'攒食物，'收集木材'攒木头。注意：打猎有风险，可能受伤；食物和木头都有上限，满了就不涨了，要会用。</p>
+        <p class="doc-line">第 3 步：食物够了就'建造小屋'——小屋能吸引流浪者加入你的队伍。</p>
+        <p class="doc-line">第 4 步：村民会提出帮你干活：樵夫（产木头）、猎人（产食物）、捕兽人（产毛皮）、铁匠（产工具/武器）。合理分配人手，让资源自己滚起来。</p>
+        <p class="doc-line">第 5 步：资源稳定后开始探索——往南走，会碰到洞穴、森林和城市。带上武器和补给，战斗是回合制的文字战斗。</p>
+        <p class="doc-line">记住：这是个'先慢后快'的游戏，前期手动点得越扎实，中期自动化之后越舒服。</p>
+      </div>
+    </section>
+    <section class="reveal">
+      <h2>小提示</h2>
+      <div class="card">
+        <p class="doc-line">受伤了会扣血上限，需要'治疗'；药和装备可以在贸易站用毛皮换。</p>
+        <p class="doc-line">游戏会自动保存进度，关掉网页再打开能接着玩。</p>
+        <p class="doc-line">剧情全靠脑补，别急着搜攻略——自己发现秘密才是这游戏最大的乐趣。</p>
+      </div>
+    </section>
+    <section class="reveal">
+      <h2>关于这个游戏</h2>
+      <div class="card">
+        <p class="doc-line">开源项目：doublespeakgames/adarkroom（MPL-2.0 许可证），已内置官方简体中文。</p>
+        <p class="doc-line">这款游戏 2013 年发布，作者 Michael Townsend（doublespeakgames），灵感来自 Candy Box（糖果盒），最初只是个小原型，后来一路做成经典。</p>
+      </div>
+    </section>
+
+    <section class="reveal" style="text-align:center">
+      <a class="btn btn-ghost" href="games.html">← 返回游戏大厅</a>
+    </section>
+
+  </main>
+
+  <footer>
+    <p>© <span id="year">2026</span> 范小皮 · 由树莓派 + eu.org 免费域名驱动 🦐</p>
+    <p style="margin-top:4px">游戏均为开源项目，许可证见各自游戏目录</p>
+  </footer>
+
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) entry.target.classList.add("visible");
+      });
+    }, { threshold: 0.15 });
+    document.querySelectorAll(".reveal").forEach((el) => observer.observe(el));
+  </script>
+
+</body>
+</html>

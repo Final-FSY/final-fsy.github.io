@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<!-- HTML5 声明：告诉浏览器"我是网页" -->
+<html lang="zh-CN">
+<!-- lang="zh-CN" 声明中文页面 -->
+
+<head>
+  <meta charset="UTF-8">
+  <!-- UTF-8 编码，中文不乱码 -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- 这行很重要！让网页在手机/iPad 上自适应，没有它手机上会挤成一团 -->
+
+  <title>范小皮的网站</title>
+
+  <!-- 样式已经从 <style> 里搬到了单独的 style.css 文件
+       <link> 就是把那个文件"链接"进来。以后两个页面共用一个皮肤 -->
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" href="favicon.svg">
+</head>
+
+<body>
+
+  <!-- ======== 导航栏 ======== -->
+  <nav>
+    <a class="logo" href="index.html">🦐 范小皮</a>
+    <div>
+      <a href="pipixia.html">皮皮虾</a>
+      <a href="games.html">游戏</a>
+    </div>
+  </nav>
+
+  <!-- ======== 首页大标题 ======== -->
+  <header class="hero">
+    <div class="badge">finalfsy.eu.org · 施工中 🚧</div>
+    <h1>你好，我是<span class="gradient">范小皮</span></h1>
+    <p class="sub">
+      15 岁，爱折腾电脑软硬件的高中生。<br>
+      这里是我的数字小窝 —— 记录我的折腾、学习与作品。
+    </p>
+    <div class="hero-btns">
+      <a class="btn btn-primary" href="#projects">看看我的项目</a>
+      <a class="btn btn-ghost" href="#about">关于我</a>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- ======== 关于我 ======== -->
+    <section id="about" class="reveal">
+      <h2>关于我</h2>
+      <div class="card">
+        <p>范小皮，15 岁，河北保定人。开学后就读于保定市爱和城高级中学。</p>
+        <p style="margin-top:12px">表面上是普通中学生，背地里是个电脑折腾爱好者。家里的树莓派、Orange Pi、路由器都被我改造过：全屋 DNS 广告拦截、家庭信息屏、手机遥控电视……全靠自学 + 踩坑，经验都是坑里爬出来的，笔记都记在 <a href="https://github.com/Final-FSY" target="_blank">GitHub</a> 上。</p>
+        <p style="margin-top:12px">除了电脑，我还有三样爱好：</p>
+        <p style="margin-top:8px">📷 摄影——喜欢到处拍</p>
+        <p>🏃 运动——出出汗才舒服</p>
+        <p>🎻 小提琴——有六级证书，虽然上了初三以后就没怎么碰过</p>
+        <p style="margin-top:12px">座右铭：<b>To Infinity and Beyond.</b></p>
+      </div>
+    </section>
+
+    <!-- ======== 项目 ======== -->
+    <section id="projects" class="reveal">
+      <h2>项目</h2>
+      <p class="section-desc">折腾过的一些小东西。</p>
+      <div class="grid">
+
+        <div class="project">
+          <span class="tag">InfoScreen</span>
+          <h3>家庭信息屏</h3>
+          <p>用一台越狱的 iPhone 6s Plus 做的信息屏：大字时钟、天气、新闻、备忘录。数据由树莓派定时抓取提供。</p>
+          <a class="detail-link" href="project-infoscreen.html">查看详情 →</a>
+        </div>
+
+        <div class="project">
+          <span class="tag">家庭网络</span>
+          <h3>全屋 DNS 广告拦截</h3>
+          <p>Orange Pi 上跑 AdGuard Home 给全家去广告。后来误伤太多正常网站，全屋拦截下线，改成只给自己设备用。</p>
+          <a class="detail-link" href="project-adguard.html">查看详情 →</a>
+        </div>
+
+        <div class="project">
+          <span class="tag">网页遥控</span>
+          <h3>手机遥控电视</h3>
+          <p>树莓派跑网页服务，通过 adb 遥控接在电视上的安卓盒子，手机浏览器打开网页就能按键。断断续续折腾了几天才弄通。</p>
+          <a class="detail-link" href="project-cec.html">查看详情 →</a>
+        </div>
+
+        <div class="project">
+          <span class="tag">建站</span>
+          <h3>这个网站</h3>
+          <p>用 eu.org 的免费域名和 Cloudflare 的免费托管搭起来的，没花一分钱。顺便练了练 HTML/CSS 和域名解析。</p>
+          <a class="detail-link" href="project-website.html">查看详情 →</a>
+        </div>
+
+        <div class="project">
+          <span class="tag">笔记</span>
+          <h3>学习笔记</h3>
+          <p>每天把学到的东西整理成笔记，自动同步到 <a href="https://github.com/Final-FSY/learning-notes" target="_blank">GitHub</a> 上，方便回头看。</p>
+          <a class="detail-link" href="project-notes.html">查看详情 →</a>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ======== 摄影 ======== -->
+    <section id="photos" class="reveal">
+      <h2>摄影</h2>
+      <p class="section-desc">Canon EOS 700D 随手拍，点击可看大图。</p>
+      <div class="gallery">
+        <div class="featured-row">
+          <a class="photo featured" href="photos/photo-2.jpg" target="_blank" rel="noopener">
+            <img src="photos/photo-2.jpg" alt="摄影作品" loading="lazy">
+          </a>
+          <a class="photo featured" href="photos/photo-5.jpg" target="_blank" rel="noopener">
+            <img src="photos/photo-5.jpg" alt="摄影作品" loading="lazy">
+          </a>
+        </div>
+        <div class="thumb-row">
+          <a class="photo" href="photos/photo-1.jpg" target="_blank" rel="noopener">
+            <img src="photos/photo-1.jpg" alt="摄影作品" loading="lazy">
+          </a>
+          <a class="photo" href="photos/photo-3.jpg" target="_blank" rel="noopener">
+            <img src="photos/photo-3.jpg" alt="摄影作品" loading="lazy">
+          </a>
+          <a class="photo" href="photos/photo-4.jpg" target="_blank" rel="noopener">
+            <img src="photos/photo-4.jpg" alt="摄影作品" loading="lazy">
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======== 联系 ======== -->
+    <section id="contact" class="reveal">
+      <h2>联系我</h2>
+      <p class="section-desc">邮箱或 GitHub，随时找我。</p>
+      <div class="card contact-line">
+        <p>📧 <a href="mailto:final.fsy@outlook.com">final.fsy@outlook.com</a></p>
+        <p style="margin-top:8px">📧 <a href="mailto:fsy8073@163.com">fsy8073@163.com</a></p>
+        <p style="margin-top:8px">🐙 <a href="https://github.com/Final-FSY" target="_blank">GitHub：Final-FSY</a></p>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ======== 页脚 ======== -->
+  <footer>
+    <p>© <span id="year">2026</span> 范小皮 · 由树莓派 + eu.org 免费域名驱动 🦐</p>
+    <p style="margin-top:4px">Powered by 0 元预算</p>
+  </footer>
+
+  <script>
+    // ======== 小 JS：年份自动更新 ========
+    // 以后不用每年手动改 © 后面的年份
+    document.getElementById("year").textContent = new Date().getFullYear();
+
+    // ======== 滚动出现动画 ========
+    // 当元素进入屏幕视野时，给它加上 .visible 类 → CSS 里的淡入效果触发
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("visible");
+        }
+      });
+    }, { threshold: 0.15 });   // 元素露出 15% 就触发
+
+    document.querySelectorAll(".reveal").forEach((el) => observer.observe(el));
+  </script>
+
+</body>
+</html>

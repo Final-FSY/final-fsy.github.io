@@ -1,0 +1,68 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches:
+      - master
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Generate TypeScript sources from ascii art and translations
+        working-directory: pythonScripts
+        env:
+          PYTHONUTF8: "1"
+        run: |
+          mkdir -p ../code/gen
+          python3 genAscii.py
+          python3 genText.py
+
+      - name: Compile TypeScript
+        run: |
+          npx --yes --package typescript@1.7.5 -- tsc ./libs/*.ts ./code/main/*.ts ./code/gen/*.ts ./code/arena/*/*.ts --out ./candybox2_compiled.js --target ES5
+
+      - name: Minify
+        run: |
+          npx --yes terser ./candybox2_compiled.js -o ./candybox2_minified.js --compress --mangle
+
+      - name: Assemble site
+        run: |
+          mkdir _site
+          rsync -a --exclude '.git' --exclude '.github' --exclude '_site' --exclude 'candybox2_compiled.js' --exclude 'candybox2_minified.js' ./ _site/
+          cat candybox2_sourceCodeLicense.txt candybox2_minified.js > _site/candybox2.js
+          cat candybox2_sourceCodeLicense.txt candybox2_compiled.js > _site/candybox2_uncompressed.js
+
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@v5
+        with:
+          enablement: true
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

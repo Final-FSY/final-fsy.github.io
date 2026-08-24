@@ -1,0 +1,7 @@
+**/*.pyc
+**/*.zip
+
+# Build artifacts (built and deployed by GitHub Actions, see .github/workflows/deploy.yml)
+/candybox2.js
+/candybox2_uncompressed.js
+/code/gen/

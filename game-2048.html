@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>2048 · 游戏介绍</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" href="favicon.svg">
+</head>
+
+<body>
+
+  <nav>
+    <a class="logo" href="index.html">🦐 范小皮</a>
+    <div>
+      <a href="pipixia.html">皮皮虾</a>
+      <a href="games.html">游戏</a>
+    </div>
+  </nav>
+
+  <main>
+
+    <span class="tag" style="display:inline-block; margin-bottom:12px">MIT</span>
+    <h2 style="margin-bottom:4px">2048</h2>
+    <p class="doc-line">经典数字合并益智游戏：把相同数字碰在一起，合出 2048！</p>
+
+    <div class="reveal" style="margin: 18px 0 8px">
+      <a class="btn btn-primary" href="games/2048/index.html">开始游戏 →</a>
+      <a class="btn btn-ghost" href="games.html">← 返回大厅</a>
+    </div>
+
+    <section class="reveal">
+      <h2>这是什么游戏</h2>
+      <div class="card">
+        <p class="doc-line">2048 是一款极简的数字拼图游戏：4×4 的格子里有带数字的方块，你每次操作所有方块会同时朝一个方向滑动，两个相同数字的方块碰到一起就会合并，变成它们的和（2+2=4，4+4=8……）。</p>
+        <p class="doc-line">目标：合出 2048 这个数字就算通关。不过通关之后可以继续玩，看你能合到多高（4096、8192……）。</p>
+      </div>
+    </section>
+    <section class="reveal">
+      <h2>怎么操作</h2>
+      <div class="card">
+        <p class="doc-line">电脑：键盘方向键 ← ↑ → ↓ 控制滑动方向；按 R 重新开始。</p>
+        <p class="doc-line">手机/平板：直接在屏幕上滑动。</p>
+      </div>
+    </section>
+    <section class="reveal">
+      <h2>新手攻略</h2>
+      <div class="card">
+        <p class="doc-line">核心原则：永远别让最大的数字乱跑。选一个角（推荐左下角），把最大的方块锁在那里，所有操作都围着它转。</p>
+        <p class="doc-line">只往三个方向推：比如锁定了左下角，就只用 左、下、右 三个方向，尽量避免按上——按上容易把大块从角落带出来，牌面很快会乱。</p>
+        <p class="doc-line">保持格子整齐：别让格子里出现太多小数字分散在各处，优先把相同数字往大块的方向合并。</p>
+        <p class="doc-line">实在没路走了，先看看能不能合出一个 2 或 4 腾出空间，别急着按上键。</p>
+      </div>
+    </section>
+    <section class="reveal">
+      <h2>小提示</h2>
+      <div class="card">
+        <p class="doc-line">新方块只会是 2 或 4，出现的格子是随机的——所以卡死有时候真是运气问题，别太气。</p>
+        <p class="doc-line">分数没有上限，心态才是上限。</p>
+      </div>
+    </section>
+    <section class="reveal">
+      <h2>关于这个游戏</h2>
+      <div class="card">
+        <p class="doc-line">开源项目：gabrielecirulli/2048（MIT 许可证）。</p>
+        <p class="doc-line">玩法灵感来自 2014 年的益智游戏 Threes!。</p>
+      </div>
+    </section>
+
+    <section class="reveal" style="text-align:center">
+      <a class="btn btn-ghost" href="games.html">← 返回游戏大厅</a>
+    </section>
+
+  </main>
+
+  <footer>
+    <p>© <span id="year">2026</span> 范小皮 · 由树莓派 + eu.org 免费域名驱动 🦐</p>
+    <p style="margin-top:4px">游戏均为开源项目，许可证见各自游戏目录</p>
+  </footer>
+
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) entry.target.classList.add("visible");
+      });
+    }, { threshold: 0.15 });
+    document.querySelectorAll(".reveal").forEach((el) => observer.observe(el));
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>这个网站 · 项目详情</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <nav>
+    <a class="logo" href="index.html">🦐 范小皮</a>
+    <div>
+      <a href="pipixia.html">皮皮虾</a>
+      <a href="games.html">游戏</a>
+    </div>
+  </nav>
+
+  <main>
+
+    <div class="placeholder-img">📷 图片待补充</div>
+
+    <span class="tag" style="display:inline-block; margin-bottom:12px">建站</span>
+    <h2 style="margin-bottom:4px">这个网站</h2>
+    <p class="doc-line">0 元预算拥有自己的域名和网站。</p>
+
+    <section class="reveal">
+      <h2>起因</h2>
+      <div class="card">
+        <p>想要一个自己的网站和域名，但不想花钱。域名和托管都有免费方案：eu.org 提供免费域名（1996 年至今，非营利运营），Cloudflare 提供免费的 DNS、托管、HTTPS 证书和 CDN。</p>
+      </div>
+    </section>
+
+    <section class="reveal">
+      <h2>方案与实现</h2>
+      <div class="card">
+        <p class="doc-line"><b>域名</b>：eu.org 申请 finalfsy.eu.org（免费，个人非商业用途）。申请需要提供两个有效的 nameserver，正好用 Cloudflare 的（darwin / vivienne.ns.cloudflare.com）。eu.org 会自动检查 nameserver 的 SOA 和 NS 记录，全部通过后才进入人工审核。</p>
+        <p class="doc-line"><b>托管</b>：Cloudflare Pages 免费套餐，直接把静态文件上传即可，自带全球 CDN 和自动 HTTPS。</p>
+        <p class="doc-line"><b>前端</b>：手写 HTML/CSS/JS，深色主题 + 虾橙配色，公共样式抽成 style.css 供多页面复用；照片用 ffmpeg 压缩到适合网页的尺寸；页面做了响应式适配（电脑/iPad/手机）。</p>
+        <p class="doc-line"><b>概念</b>：通过这个项目弄懂了域名、DNS（电话簿）、托管、备案（海外免费方案不需要）之间的关系。</p>
+      </div>
+    </section>
+
+    <section class="reveal">
+      <h2>踩过的坑</h2>
+      <div class="card">
+        <p class="doc-line">· eu.org 账号注册邮箱不能用 Gmail（官方明确警告验证邮件会被拒收）；</p>
+        <p class="doc-line">· 申请时 nameserver 必须真实有效，eu.org 会实际发查询验证，填错会被拒；</p>
+        <p class="doc-line">· 审核是人工的，没有固定时间，反复提交只会更慢；</p>
+        <p class="doc-line">· 浏览器缓存会显示旧版本，改完文件要强制刷新（Ctrl+F5）；</p>
+        <p class="doc-line">· 图片不压缩直接传会导致页面加载慢，需要先调整尺寸。</p>
+      </div>
+    </section>
+
+    <section class="reveal">
+      <h2>现状与下一步</h2>
+      <div class="card">
+        <p class="doc-line">网站内容基本就位，域名还在等 eu.org 人工审核（已提交，技术检查全绿）。</p>
+        <p class="doc-line">批下来后：Cloudflare 绑定域名 → 部署到 Pages → 正式上线。</p>
+      </div>
+    </section>
+
+    <section class="reveal" style="text-align:center">
+      <a class="btn btn-ghost" href="index.html#projects">← 返回项目</a>
+    </section>
+
+  </main>
+
+  <footer>
+    <p>© <span id="year">2026</span> 范小皮 · 由树莓派 + eu.org 免费域名驱动 🦐</p>
+  </footer>
+
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) entry.target.classList.add("visible");
+      });
+    }, { threshold: 0.15 });
+    document.querySelectorAll(".reveal").forEach((el) => observer.observe(el));
+  </script>
+
+</body>
+</html>

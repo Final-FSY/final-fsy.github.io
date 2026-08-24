@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>俄罗斯方块 · 游戏介绍</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" href="favicon.svg">
+</head>
+
+<body>
+
+  <nav>
+    <a class="logo" href="index.html">🦐 范小皮</a>
+    <div>
+      <a href="pipixia.html">皮皮虾</a>
+      <a href="games.html">游戏</a>
+    </div>
+  </nav>
+
+  <main>
+
+    <span class="tag" style="display:inline-block; margin-bottom:12px">MIT</span>
+    <h2 style="margin-bottom:4px">俄罗斯方块</h2>
+    <p class="doc-line">经典下落方块：消行得分，越到后面越快。</p>
+
+    <div class="reveal" style="margin: 18px 0 8px">
+      <a class="btn btn-primary" href="games/tetris/index.html">开始游戏 →</a>
+      <a class="btn btn-ghost" href="games.html">← 返回大厅</a>
+    </div>
+
+    <section class="reveal">
+      <h2>这是什么游戏</h2>
+      <div class="card">
+        <p class="doc-line">1984 年诞生的国民级游戏。7 种不同形状的方块从屏幕顶部落下，你要旋转、移动它们，让它们整齐地铺在底部；铺满一整行，那行就会消失并得分。</p>
+        <p class="doc-line">方块下落速度会随等级越来越快，撑得越久越刺激。</p>
+      </div>
+    </section>
+    <section class="reveal">
+      <h2>怎么操作</h2>
+      <div class="card">
+        <p class="doc-line">电脑：← → 左右移动，↑ 旋转，↓ 加速下落，空格 直接落底；菜单里按空格开始（游戏结束/菜单界面按空格重来）。</p>
+        <p class="doc-line">手机/平板：这款是键盘专用版，手机上暂时玩不了，用电脑体验最佳。</p>
+      </div>
+    </section>
+    <section class="reveal">
+      <h2>新手攻略</h2>
+      <div class="card">
+        <p class="doc-line">先学会看下一个块：提前想好它该放哪，比等它掉下来再手忙脚乱强一百倍。</p>
+        <p class="doc-line">堆得平比堆得高重要：尽量让顶部保持平整，别留凸出来的台阶，不然后面塞不进去。</p>
+        <p class="doc-line">留一条'缝'：当来的是 I 形长条时，一条竖着的空缝能让你连消四行（Tetris！），分数翻倍。</p>
+        <p class="doc-line">别贪：宁可把方块放得低一点，也别为了追求完美把牌面堆歪。</p>
+      </div>
+    </section>
+    <section class="reveal">
+      <h2>小提示</h2>
+      <div class="card">
+        <p class="doc-line">消行时快速按 ↓ 把方块放下去，能多赚一点落地的分数。</p>
+        <p class="doc-line">游戏界面右侧会显示下一个方块、分数和等级，记得瞄一眼。</p>
+      </div>
+    </section>
+    <section class="reveal">
+      <h2>关于这个游戏</h2>
+      <div class="card">
+        <p class="doc-line">开源项目：jakesgordon/javascript-tetris（MIT 许可证），纯 JavaScript + Canvas 实现。</p>
+        <p class="doc-line">俄罗斯方块是有史以来销量最高的电子游戏之一。</p>
+      </div>
+    </section>
+
+    <section class="reveal" style="text-align:center">
+      <a class="btn btn-ghost" href="games.html">← 返回游戏大厅</a>
+    </section>
+
+  </main>
+
+  <footer>
+    <p>© <span id="year">2026</span> 范小皮 · 由树莓派 + eu.org 免费域名驱动 🦐</p>
+    <p style="margin-top:4px">游戏均为开源项目，许可证见各自游戏目录</p>
+  </footer>
+
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) entry.target.classList.add("visible");
+      });
+    }, { threshold: 0.15 });
+    document.querySelectorAll(".reveal").forEach((el) => observer.observe(el));
+  </script>
+
+</body>
+</html>
