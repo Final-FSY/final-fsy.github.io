@@ -256,6 +256,16 @@ h2::after {                 /* 标题下面那条小横线，纯装饰 */
   margin-bottom: 28px;
 }
 
+/* 项目详情页的实拍照片 */
+.project-img {
+  width: 100%;
+  border-radius: 14px;
+  border: 1px solid var(--border);
+  background: var(--card);
+  margin-bottom: 28px;
+  display: block;
+}
+
 /* 详情页小标题下的小字 */
 .doc-line { color: var(--muted); font-size: 14px; margin-bottom: 8px; }
 .doc-line b { color: var(--text); }
