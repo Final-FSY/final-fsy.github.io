@@ -15,28 +15,6 @@
        <link> 就是把那个文件"链接"进来。以后两个页面共用一个皮肤 -->
   <link rel="stylesheet" href="style.css">
   <link rel="icon" href="favicon.svg">
-
-  <!-- 整蛊按钮动画（页面级样式，不影响其他页面） -->
-  <style>
-    @keyframes jbPulse {
-      0%, 100% { box-shadow: 0 0 20px rgba(255, 215, 0, 0.5); transform: scale(1); }
-      50% { box-shadow: 0 0 45px rgba(255, 107, 157, 0.8); transform: scale(1.03); }
-    }
-    .jb-btn {
-      display: inline-block;
-      padding: 18px 52px;
-      font-size: 22px;
-      font-weight: 900;
-      letter-spacing: 2px;
-      color: #3a2500;
-      text-decoration: none;
-      border-radius: 999px;
-      background: linear-gradient(90deg, #ffd700, #ff6b9d, #ffd700);
-      background-size: 200% 100%;
-      animation: jbPulse 1.8s ease-in-out infinite;
-    }
-    .jb-btn:hover { filter: brightness(1.1); }
-  </style>
 </head>
 
 <body>
@@ -61,11 +39,6 @@
     <div class="hero-btns">
       <a class="btn btn-primary" href="#projects">看看我的项目</a>
       <a class="btn btn-ghost" href="#about">关于我</a>
-    </div>
-
-    <!-- 整蛊按钮：点击查看大帅哥 -->
-    <div style="text-align:center; margin-top:30px">
-      <a class="jb-btn" href="handsome.html">✨ 点击查看大帅哥 ✨</a>
     </div>
   </header>
 
