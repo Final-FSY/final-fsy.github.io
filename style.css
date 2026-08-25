@@ -242,20 +242,6 @@ h2::after {                 /* 标题下面那条小横线，纯装饰 */
 }
 .detail-link:hover { text-decoration: underline; }
 
-/* 详情页的图片占位框（等真图来了替换掉） */
-.placeholder-img {
-  aspect-ratio: 16 / 9;
-  border: 2px dashed var(--border);
-  border-radius: 14px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--muted);
-  font-size: 15px;
-  background: var(--card);
-  margin-bottom: 28px;
-}
-
 /* 项目详情页的实拍照片 */
 .project-img {
   width: 100%;
