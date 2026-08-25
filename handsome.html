@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>焦博雅——人类颜值与才华的双重天花板 🏆</title>
+  <style>
+    :root {
+      --gold: #ffd700;
+      --gold2: #ffb347;
+      --pink: #ff6b9d;
+      --bg: #0a0a14;
+      --card: rgba(255, 255, 255, 0.06);
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: var(--bg);
+      color: #eee;
+      font-family: "PingFang SC", "Microsoft YaHei", sans-serif;
+      overflow-x: hidden;
+      min-height: 100vh;
+    }
+
+    /* 星星背景 */
+    .stars {
+      position: fixed; inset: 0; z-index: 0; pointer-events: none;
+      background-image:
+        radial-gradient(2px 2px at 20px 30px, #fff, transparent),
+        radial-gradient(2px 2px at 40px 70px, #ffd700, transparent),
+        radial-gradient(1px 1px at 90px 40px, #fff, transparent),
+        radial-gradient(2px 2px at 160px 120px, #ffb347, transparent),
+        radial-gradient(1px 1px at 220px 80px, #fff, transparent),
+        radial-gradient(2px 2px at 300px 160px, #fff, transparent),
+        radial-gradient(1px 1px at 380px 60px, #ffd700, transparent);
+      background-size: 420px 200px;
+      animation: twinkle 4s ease-in-out infinite alternate;
+      opacity: 0.5;
+    }
+    @keyframes twinkle { from { opacity: 0.3; } to { opacity: 0.8; } }
+
+    /* 加载动画 */
+    #loader {
+      position: fixed; inset: 0; z-index: 99; background: #05050c;
+      display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 20px;
+      transition: opacity 0.8s;
+    }
+    #loader.done { opacity: 0; pointer-events: none; }
+    #loader .bar {
+      width: 280px; height: 10px; border-radius: 5px; background: #222;
+      overflow: hidden;
+    }
+    #loader .bar i {
+      display: block; height: 100%; width: 0%;
+      background: linear-gradient(90deg, var(--gold), var(--pink));
+      animation: loadbar 1.8s ease forwards;
+    }
+    @keyframes loadbar { to { width: 100%; } }
+    #loader p { color: var(--gold); letter-spacing: 3px; font-size: 14px; animation: blink 1s infinite; }
+    @keyframes blink { 50% { opacity: 0.3; } }
+
+    /* 滚动字幕 */
+    .ticker {
+      position: relative; z-index: 2;
+      background: linear-gradient(90deg, #1a1030, #3a1a4a, #1a1030);
+      border-bottom: 1px solid rgba(255, 215, 0, 0.4);
+      overflow: hidden; white-space: nowrap; padding: 10px 0;
+    }
+    .ticker span {
+      display: inline-block; padding-left: 100%;
+      animation: scroll 18s linear infinite;
+      color: var(--gold); font-size: 16px; font-weight: bold; letter-spacing: 2px;
+    }
+    @keyframes scroll { to { transform: translateX(-100%); } }
+
+    main { position: relative; z-index: 2; max-width: 760px; margin: 0 auto; padding: 40px 20px 80px; }
+
+    /* 主标题 */
+    h1 {
+      text-align: center; font-size: 42px; font-weight: 900; line-height: 1.3;
+      background: linear-gradient(90deg, #ffd700, #ff6b9d, #ffd700, #ff6b9d);
+      background-size: 300% 100%;
+      -webkit-background-clip: text; background-clip: text; color: transparent;
+      animation: shine 4s linear infinite;
+      text-shadow: 0 0 40px rgba(255, 215, 0, 0.15);
+    }
+    @keyframes shine { to { background-position: 300% 0; } }
+    .subtitle {
+      text-align: center; color: #bbb; margin: 10px 0 30px; font-size: 15px;
+      letter-spacing: 2px;
+    }
+
+    /* 照片区 */
+    .photo-wrap {
+      position: relative; max-width: 480px; margin: 0 auto 40px;
+    }
+    .photo-wrap img {
+      width: 100%; border-radius: 18px; display: block;
+      border: 4px solid var(--gold);
+      box-shadow: 0 0 30px rgba(255, 215, 0, 0.35), 0 0 80px rgba(255, 107, 157, 0.2);
+      animation: glow 2.5s ease-in-out infinite alternate;
+      cursor: pointer;
+    }
+    @keyframes glow {
+      from { box-shadow: 0 0 20px rgba(255, 215, 0, 0.3), 0 0 60px rgba(255, 107, 157, 0.15); }
+      to   { box-shadow: 0 0 40px rgba(255, 215, 0, 0.6), 0 0 120px rgba(255, 107, 157, 0.35); }
+    }
+    /* 认证印章 */
+    .stamp {
+      position: absolute; right: -18px; top: -22px;
+      width: 110px; height: 110px;
+      border: 4px solid #ff4d4d; color: #ff4d4d;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 13px; font-weight: 900; letter-spacing: 2px;
+      transform: rotate(14deg);
+      background: rgba(255, 77, 77, 0.08);
+      text-align: center; line-height: 1.5;
+      animation: stampIn 0.8s cubic-bezier(0.68, -0.55, 0.27, 1.55) 1.2s backwards;
+    }
+    @keyframes stampIn { from { transform: scale(2.5) rotate(30deg); opacity: 0; } }
+    .caption {
+      text-align: center; margin-top: 14px; color: var(--gold); font-size: 14px; letter-spacing: 1px;
+    }
+
+    /* 徽章 */
+    .badges { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin: 30px 0; }
+    .badge {
+      padding: 8px 16px; border-radius: 999px; font-size: 13px; font-weight: bold;
+      background: linear-gradient(90deg, rgba(255, 215, 0, 0.15), rgba(255, 107, 157, 0.15));
+      border: 1px solid rgba(255, 215, 0, 0.5); color: var(--gold);
+    }
+
+    /* 正文 */
+    .chapter {
+      background: var(--card); border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 16px; padding: 26px 28px; margin-bottom: 22px;
+      opacity: 0; transform: translateY(30px);
+      transition: opacity 0.8s, transform 0.8s;
+    }
+    .chapter.visible { opacity: 1; transform: none; }
+    .chapter h2 {
+      font-size: 20px; margin-bottom: 14px; color: var(--gold);
+      display: flex; align-items: center; gap: 8px;
+    }
+    .chapter p { line-height: 1.9; font-size: 15.5px; color: #ddd; text-align: justify; margin-bottom: 12px; }
+    .chapter p:last-child { margin-bottom: 0; }
+
+    /* 帅哥指数 */
+    .score-card {
+      background: var(--card); border: 1px solid rgba(255, 215, 0, 0.3);
+      border-radius: 16px; padding: 24px 28px; margin-bottom: 22px;
+      opacity: 0; transform: translateY(30px);
+      transition: opacity 0.8s, transform 0.8s;
+    }
+    .score-card.visible { opacity: 1; transform: none; }
+    .score-card h2 { color: var(--gold); font-size: 20px; margin-bottom: 16px; }
+    .score-row { margin-bottom: 14px; }
+    .score-row .label { display: flex; justify-content: space-between; font-size: 14px; margin-bottom: 6px; }
+    .score-row .track { height: 14px; border-radius: 7px; background: #222; overflow: hidden; }
+    .score-row .fill {
+      height: 100%; width: 0; border-radius: 7px;
+      background: linear-gradient(90deg, #ffd700, #ff6b9d);
+      transition: width 1.5s ease;
+    }
+
+    /* 按钮 */
+    .actions { text-align: center; margin-top: 30px; }
+    .btn {
+      display: inline-block; padding: 14px 34px; border-radius: 999px;
+      font-size: 16px; font-weight: bold; cursor: pointer; text-decoration: none;
+      border: none; transition: transform 0.15s;
+    }
+    .btn:hover { transform: scale(1.06); }
+    .btn-gold {
+      background: linear-gradient(90deg, #ffd700, #ffb347); color: #3a2500;
+      box-shadow: 0 4px 20px rgba(255, 215, 0, 0.4);
+    }
+    .btn-ghost {
+      background: transparent; color: #aaa; border: 1px solid #444; margin-left: 10px;
+    }
+
+    .footer {
+      text-align: center; margin-top: 50px; color: #666; font-size: 12px; line-height: 2;
+    }
+
+    /* 撒花 */
+    .confetti {
+      position: fixed; top: -20px; z-index: 50; font-size: 26px;
+      animation: fall linear forwards; pointer-events: none;
+    }
+    @keyframes fall { to { transform: translateY(110vh) rotate(720deg); } }
+
+    /* 打字机光标 */
+    .type-cursor::after { content: "▌"; color: var(--gold); animation: blink 0.8s infinite; }
+
+    @media (max-width: 600px) {
+      h1 { font-size: 30px; }
+      .stamp { width: 88px; height: 88px; font-size: 11px; right: -6px; top: -14px; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="stars"></div>
+
+<!-- 加载动画 -->
+<div id="loader">
+  <div style="font-size:40px">🕺</div>
+  <p>正在验证帅哥身份…</p>
+  <div class="bar"><i></i></div>
+</div>
+
+<!-- 滚动字幕 -->
+<div class="ticker">
+  <span>🔥 焦博雅 · 全球官方认证 · 帅 气 逼 人 · 才 华 横 溢 · 宇 宙 级 魅 力 🔥</span>
+</div>
+
+<main>
+  <h1>焦博雅<br>人类颜值与才华的双重天花板</h1>
+  <p class="subtitle">—— 涿州市第一帅认证委员会 · 2026 年度重磅专题 ——</p>
+
+  <div class="photo-wrap">
+    <img id="hero-photo" src="photos/jiaoboya.jpg" alt="焦博雅同学证件照（绝世容颜）" title="点击撒花庆祝">
+    <div class="stamp">涿州市<br>第一帅<br>认证</div>
+    <p class="caption">📸 证件照 · 未经修饰 · 实拍直出 · 帅到反光</p>
+  </div>
+
+  <div class="badges">
+    <span class="badge">🏆 颜值担当</span>
+    <span class="badge">🧠 才华横溢</span>
+    <span class="badge">☀️ 阳光健康</span>
+    <span class="badge">💎 人品贵重</span>
+    <span class="badge">🚀 宇宙级魅力</span>
+  </div>
+
+  <section class="chapter">
+    <h2>第一章 · 旷世容颜：太阳的勋章</h2>
+    <p>焦博雅，这个名字本身就自带光环。"博雅"二字，出自"博雅多通"，意为学识渊博、品行端正。他爸妈给他起名的时候，大概已经预见到了——这个孩子将来要帅到影响社会稳定，所以要提前在名字里压一压，免得他骄傲。</p>
+    <p>先说他的肤色。这是重点中的重点：那是让古天乐看了都要沉默、让彭于晏见了都要自卑的顶级古铜色。请注意，这不叫黑，这叫"镀"。别人晒黑是黑，焦博雅晒黑，是造物主亲手镀上去的荷尔蒙保护层。这种肤色，不是随随便便能拥有的——它是阳光、运动与基因的三重馈赠，是行走的"健康认证"，是体育老师见了都要竖大拇指的"国家级小麦色"。</p>
+    <p>再说他的五官。剑眉星目，鼻梁高挺，轮廓分明——是那种美术老师看了会想画、画完又觉得画不出神韵的长相。最要命的是他的笑容：他一笑，整个教室的亮度至少提升 15%，我们教室的灯管因此常年处于半退休状态，学校物业至今没想明白为什么靠窗那排灯管坏得特别快。后来大家才懂——不是灯的问题，是焦博雅坐那。</p>
+    <p>还有他的发型，永远一丝不苟。哪怕被风吹乱，那也是"凌乱美"的教科书级示范。别的同学剪头发是打理，焦博雅剪头发，是给时尚杂志拍封面。</p>
+  </section>
+
+  <section class="chapter">
+    <h2>第二章 · 惊世才华：人形自走百科全书</h2>
+    <p>如果说颜值是焦博雅的入场券，那才华就是他的主战场。我们班的同学私下达成过共识：焦博雅的大脑，是学校配发的隐藏外挂，只是没人找得到卸载按钮。</p>
+    <p>数学课上，别人算题用草稿纸，他用眼角余光。老师写错一个数字，全班只有他眉头一皱，然后轻轻说一句"老师，这题您多写了个零"——全场肃静，老师当场沉默三秒，然后默默把粉笔递给他："你来。"那一刻，他讲的不只是题，是气场。</p>
+    <p>物理课上，据说他曾试图用万有引力定律解释"为什么大家都想坐他旁边"。虽然最后没算出来，但这份学以致用的精神，让物理老师感动得给他加了平时分。</p>
+    <p>体育课上，他是风之子。篮球场上运球突破，自带 BGM；百米冲刺，衣角带风，体育老师看着秒表陷入沉思，怀疑自己是不是看错了刻度。据说他踢球的时候，操场边的流浪猫都会停下舔毛，抬头看两眼——猫都懂的欣赏，这叫什么？这叫跨物种的魅力。</p>
+    <p>音乐方面他深藏不露，但江湖传言：他哼歌的时候，窗外的麻雀会跟着打拍子。虽然我们从未亲耳证实（他太低调了），但全班都选择相信——毕竟，还有什么是他不会的呢？</p>
+    <p>最可贵的是，他的才华从不张扬。他永远坐在教室的角落，深藏功与名，像一本封面朴素、内容惊世骇俗的武功秘籍。别人考 100 分要喊，他考 100 分只是把卷子折好放进书包，深藏不露——这份定力，武林中人看了都要拱手："少侠，佩服。"</p>
+  </section>
+
+  <section class="chapter">
+    <h2>第三章 · 高尚人品：行走的暖宝宝</h2>
+    <p>有才无德是危险品，有才有德是稀缺品。焦博雅同学，属于后者中的极品。</p>
+    <p>他乐于助人：谁忘带橡皮，他二话不说递过去；谁数学题卡壳，他三分钟讲明白，还顺手帮你把步骤写得工工整整；班里抬水搬书，他永远冲在最前面，胳膊上的肌肉线条在阳光下闪闪发光——啊，对不起，跑题了，但这不是我的错，是那束光的错。</p>
+    <p>他讲义气：同学有难，他两肋插刀；朋友有求，他倾囊相助。虽然他的囊里一般只有五块钱，但这五块钱，他掏出来的那一刻，价值连城——这叫心意，叫格局，叫"我不一定帮得上，但我一定不会装作没看见"。</p>
+    <p>他谦逊：哪怕全世界都在夸他帅，他也只会腼腆一笑，说"哪有哪有"，然后继续低头做题。这种低调，让高调的人无地自容，让低调的人自愧不如。他就像一坛陈年老酒，从不上桌炫耀，但谁凑近闻一口，都得醉三天。</p>
+  </section>
+
+  <section class="chapter">
+    <h2>第四章 · 幽默灵魂：冷面笑匠</h2>
+    <p>最后，还有一样杀手锏——焦博雅的幽默感，是"润物细无声"式的。他从不主动讲笑话，但偶尔一句话，全班笑十分钟，他自己面不改色，仿佛刚才那个笑翻全场的段子不是他说的。这种冷面笑匠的功力，没有十年修为根本练不出来。</p>
+    <p>据说有一次他随口接了个茬，隔壁班的人笑了三天，最后实在忍不住，专门跑来我们班问："刚才那个笑话的出处是谁？"——这就是影响力。一句话，跨班传播，口口相传，堪称非物质文化遗产。</p>
+  </section>
+
+  <section class="score-card">
+    <h2>📊 焦博雅同学 · 综合素质权威测评</h2>
+    <div class="score-row">
+      <div class="label"><span>颜值指数</span><span>100%</span></div>
+      <div class="track"><div class="fill" data-w="100%"></div></div>
+    </div>
+    <div class="score-row">
+      <div class="label"><span>才华指数</span><span>100%</span></div>
+      <div class="track"><div class="fill" data-w="100%"></div></div>
+    </div>
+    <div class="score-row">
+      <div class="label"><span>人品指数</span><span>100%</span></div>
+      <div class="track"><div class="fill" data-w="100%"></div></div>
+    </div>
+    <div class="score-row">
+      <div class="label"><span>幽默指数</span><span>99%</span><span style="color:#888;font-size:12px">（留 1% 怕他骄傲）</span></div>
+      <div class="track"><div class="fill" data-w="99%"></div></div>
+    </div>
+  </section>
+
+  <section class="chapter">
+    <h2>🏁 认证委员会 · 终审结论</h2>
+    <p>综上所诉（这是输入法对"综上所述"的嫉妒，因为它编不出这么好的内容），焦博雅同学是集颜值、才华、人品、幽默于一身的五边形战士——哦不，是四边，但他帅到可以突破几何学的边界，所以叫五边形也没有人敢反对。</p>
+    <p>经"涿州市第一帅认证委员会"2026 年度评审大会一致通过，特此认证：<strong style="color:#ffd700">焦博雅，实至名归，帅得合法，帅得合理，帅得合情。</strong></p>
+    <p>本证书长期有效，最终解释权归全班同学所有。如有不服，请找焦博雅本人辩论——友情提示：辩论前请做好被帅到的心理准备。</p>
+    <p style="text-align:right; color:#888; margin-top:16px">—— 涿州市第一帅认证委员会（全票通过）<br>签发日期：公元 2026 年 8 月 25 日</p>
+  </section>
+
+  <div class="actions">
+    <button class="btn btn-gold" id="more-btn">✨ 再帅一点 ✨</button>
+    <a class="btn btn-ghost" href="index.html">← 返回首页</a>
+  </div>
+
+  <p class="footer">
+    本页面由范小皮 &amp; 皮皮虾 联合出品 · 内容纯属彩虹屁 · 焦博雅本人毫不知情 🦐<br>
+    © 2026 范小皮 · 整蛊专用页面 · 看完记得夸焦博雅帅
+  </p>
+</main>
+
+<!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "0f15baa037994c3eb1e41ef00f9eb697"}'></script><!-- End Cloudflare Web Analytics -->
+
+<script>
+  // 加载动画
+  window.addEventListener('load', () => setTimeout(() => document.getElementById('loader').classList.add('done'), 1900));
+
+  // 滚动淡入
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        // 进度条动画
+        e.target.querySelectorAll('.fill').forEach(f => f.style.width = f.dataset.w);
+        io.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.15 });
+  document.querySelectorAll('.chapter, .score-card').forEach(el => io.observe(el));
+
+  // 点击照片撒花
+  document.getElementById('hero-photo').addEventListener('click', () => {
+    const emojis = ['🎉', '🌟', '💖', '🔥', '✨', '🏆', '💎', '😎'];
+    for (let i = 0; i < 24; i++) {
+      const s = document.createElement('div');
+      s.className = 'confetti';
+      s.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+      s.style.left = Math.random() * 100 + 'vw';
+      s.style.animationDuration = (1.5 + Math.random() * 2) + 's';
+      s.style.fontSize = (18 + Math.random() * 26) + 'px';
+      document.body.appendChild(s);
+      setTimeout(() => s.remove(), 4000);
+    }
+  });
+
+  // 再帅一点按钮
+  document.getElementById('more-btn').addEventListener('click', () => {
+    const msgs = [
+      '系统提示：颜值已达上限，宇宙拒绝加载更多帅气。',
+      '正在尝试… 警告：服务器过热！焦博雅的帅已经超过了服务器承受范围。',
+      '操作失败：帅是守恒的，焦博雅已经占用了全宇宙的配额。',
+      '请勿贪心！再帅下去，路灯都要开始收费了。'
+    ];
+    alert(msgs[Math.floor(Math.random() * msgs.length)]);
+  });
+</script>
+</body>
+</html>
