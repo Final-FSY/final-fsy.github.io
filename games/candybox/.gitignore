@@ -2,6 +2,7 @@
 **/*.zip
 
 # Build artifacts (built and deployed by GitHub Actions, see .github/workflows/deploy.yml)
-/candybox2.js
-/candybox2_uncompressed.js
+# 注意：本站直接托管编译产物（不跑原作者 Actions），candybox2.js 必须提交，否则线上 404 白屏
+# /candybox2.js
+# /candybox2_uncompressed.js
 /code/gen/
