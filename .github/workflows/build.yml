@@ -5,6 +5,7 @@ on:
     branches:
       - main
       - ci/* # for ci test
+      - xiaozhi-fw
   pull_request:
     branches:
       - main
