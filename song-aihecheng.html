@@ -350,7 +350,7 @@
     @keyframes slide { to { transform: translateX(-100%); } }
 
     /* ================= 正文 ================= */
-    main { padding-top: 70px; }
+    main { padding-top: 70px; padding-bottom: 110px; }   /* 底部多留点，别被迷你播放条盖住 */
 
     /* 三个数字卡片：作息点 */
     .stats {
@@ -454,9 +454,11 @@
     /* ---------- 整幅照片 ---------- */
     .photo-bleed {
       position: relative;
-      width: 100vw;
-      margin-left: 50%;
-      transform: translateX(-50%);
+      /* 全出血：不用 transform（会和 .reveal 的 translateY 打架），
+         改用左右负 margin 抵消父容器留白，宽度自动算 */
+      width: auto;
+      margin-left: calc(50% - 50vw);
+      margin-right: calc(50% - 50vw);
       margin-top: 80px;
       margin-bottom: 80px;
       overflow: hidden;
@@ -476,6 +478,7 @@
       left: 0; right: 0; bottom: 0;
       padding: 50px 20px 16px;
       font-size: 12.5px;
+      line-height: 1.6;        /* figure 上 line-height:0，这里必须重置，不然字挤在一起 */
       color: rgba(255, 255, 255, 0.85);
       background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
       text-align: center;
