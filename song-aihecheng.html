@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<!-- 《爱和城》歌曲页 —— 和 index.html 共用 style.css，页面专属样式写在下面 <style> 里 -->
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>爱和城 · 一首歌 | 范小皮</title>
+  <meta name="description" content="AI 生成的原创歌曲《爱和城》——唱给保定的爱和城。">
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" href="favicon.svg">
+
+  <style>
+    /* ================= 本页专属样式 ================= */
+
+    /* ---------- 第一屏：全屏照片 + 大标题 ---------- */
+    .song-hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 90px 20px 60px;
+      overflow: hidden;
+      isolation: isolate;   /* 让内部 z-index 只在页面内生效，不跟导航栏打架 */
+    }
+
+    /* 背景照片层：手机上用自适应裁切，电脑上固定住做视差 */
+    .song-hero .hero-photo {
+      position: absolute;
+      inset: -1px;              /* 多铺 1px，防止缩放时边缘露白 */
+      background: url("photos/aihecheng/school-wide.jpg") center 40% / cover no-repeat;
+      z-index: -2;
+      transform: scale(1.06);   /* 略微放大，配合视差有空间移动 */
+      animation: slowZoom 24s ease-in-out infinite alternate;  /* 缓慢呼吸式推拉 */
+    }
+    @keyframes slowZoom {
+      from { transform: scale(1.05); }
+      to   { transform: scale(1.14); }
+    }
+
+    /* 遮罩层：压暗照片，保证白色标题在任何位置都看得清 */
+    .song-hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background:
+        radial-gradient(ellipse at 50% 55%, rgba(11, 15, 26, 0.15), rgba(11, 15, 26, 0.78) 70%),
+        linear-gradient(to bottom, rgba(11, 15, 26, 0.85) 0%, rgba(11, 15, 26, 0.25) 35%, rgba(11, 15, 26, 0.95) 100%);
+    }
+
+    @media (min-width: 900px) and (hover: hover) {
+      /* 只有屏幕够大、而且有鼠标的设备才用 fixed：iOS Safari 上 fixed 会抖 */
+      .song-hero .hero-photo { background-attachment: fixed; }
+    }
+
+    .song-hero .kicker {
+      color: var(--accent-soft);
+      letter-spacing: 6px;
+      font-size: 13px;
+      margin-bottom: 18px;
+      animation: fadeUp 0.9s 0.1s ease both;
+    }
+
+    .song-hero h1 {
+      font-size: clamp(52px, 13vw, 120px);
+      font-weight: 800;
+      letter-spacing: 10px;
+      line-height: 1.05;
+      margin-right: -10px;     /* 补偿字间距，让文字视觉居中 */
+      text-shadow: 0 6px 40px rgba(0, 0, 0, 0.6);
+      animation: fadeUp 0.9s 0.2s ease both;
+    }
+
+    .song-hero .byline {
+      color: var(--muted);
+      font-size: 14px;
+      margin-top: 14px;
+      animation: fadeUp 0.9s 0.3s ease both;
+    }
+
+    /* ---------- 唱片封面（圆形，播放时转） ---------- */
+    .disc-wrap {
+      position: relative;
+      width: clamp(150px, 32vw, 210px);
+      margin-bottom: 34px;
+      animation: fadeUp 0.9s ease both;
+    }
+    .disc {
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      border-radius: 50%;
+      overflow: hidden;
+      border: 6px solid rgba(255, 255, 255, 0.1);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.55);
+      animation: spin 18s linear infinite;
+      animation-play-state: paused;   /* 默认停着，播放时 JS 改成 running */
+    }
+    .disc img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .disc.playing { animation-play-state: running; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* 唱片中间的小孔 */
+    .disc-wrap::after {
+      content: "";
+      position: absolute;
+      top: 50%; left: 50%;
+      width: 14px; height: 14px;
+      margin: -7px 0 0 -7px;
+      border-radius: 50%;
+      background: var(--bg);
+      border: 2px solid rgba(255, 255, 255, 0.25);
+    }
+
+    /* ---------- 播放器 ---------- */
+    .player {
+      width: min(560px, 100%);
+      margin-top: 40px;
+      padding: 18px 20px;
+      border-radius: 20px;
+      background: rgba(16, 21, 34, 0.62);
+      border: 1px solid var(--border);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      box-shadow: 0 18px 50px rgba(0, 0, 0, 0.45);
+      animation: fadeUp 0.9s 0.4s ease both;
+    }
+
+    .player-row {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    /* 圆形主按钮 */
+    .play-btn {
+      flex: 0 0 auto;
+      width: 56px; height: 56px;
+      border: none;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent), #ff9a63);
+      color: #fff;
+      font-size: 22px;
+      line-height: 1;
+      cursor: pointer;
+      display: grid;
+      place-items: center;
+      box-shadow: 0 8px 24px rgba(255, 107, 53, 0.45);
+      transition: transform 0.15s, box-shadow 0.15s;
+      padding-left: 3px;        /* 三角形播放键视觉居中微调 */
+    }
+    .play-btn:hover { transform: scale(1.06); box-shadow: 0 10px 30px rgba(255, 107, 53, 0.6); }
+    .play-btn:active { transform: scale(0.96); }
+    .play-btn:focus-visible { outline: 2px solid var(--accent-soft); outline-offset: 3px; }
+
+    .player-main { flex: 1 1 auto; min-width: 0; text-align: left; }
+
+    .player-title {
+      font-size: 15px;
+      font-weight: 600;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .player-title small {
+      display: block;
+      font-weight: 400;
+      color: var(--muted);
+      font-size: 12px;
+      letter-spacing: 1px;
+    }
+
+    /* 进度条：外层用 div 是为了自定义样式（原生 input[type=range] 各浏览器长得都不一样） */
+    .progress {
+      position: relative;
+      height: 22px;
+      display: flex;
+      align-items: center;
+      margin-top: 8px;
+      cursor: pointer;
+      touch-action: none;      /* 手机上拖动进度条不触发页面滚动 */
+    }
+    .progress .track {
+      position: absolute;
+      left: 0; right: 0;
+      height: 5px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.14);
+      overflow: hidden;
+    }
+    .progress .fill {
+      height: 100%;
+      width: 0%;
+      border-radius: 999px;
+      background: linear-gradient(90deg, var(--accent), var(--accent-soft));
+    }
+    .progress .knob {
+      position: absolute;
+      top: 50%;
+      left: 0%;
+      width: 12px; height: 12px;
+      margin: -6px 0 0 -6px;
+      border-radius: 50%;
+      background: #fff;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
+      opacity: 0;
+      transition: opacity 0.15s;
+      pointer-events: none;
+    }
+    .progress:hover .knob, .progress.dragging .knob { opacity: 1; }
+
+    .times {
+      display: flex;
+      justify-content: space-between;
+      font-size: 11px;
+      color: var(--muted);
+      font-variant-numeric: tabular-nums;   /* 数字等宽，倒计时不会左右跳 */
+      margin-top: 2px;
+    }
+
+    /* 第二行：音量 + 工具按钮 */
+    .player-tools {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-top: 12px;
+      padding-top: 12px;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      font-size: 12px;
+      color: var(--muted);
+    }
+    .icon-btn {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--muted);
+      border-radius: 10px;
+      padding: 5px 10px;
+      font-size: 12px;
+      cursor: pointer;
+      transition: color 0.2s, border-color 0.2s;
+    }
+    .icon-btn:hover { color: var(--text); border-color: rgba(255, 107, 53, 0.5); }
+    .icon-btn.on { color: var(--accent); border-color: rgba(255, 107, 53, 0.7); }
+
+    .vol {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 84px;
+      height: 4px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.18);
+      outline: none;
+      cursor: pointer;
+    }
+    .vol::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 12px; height: 12px;
+      border-radius: 50%;
+      background: var(--accent);
+      border: none;
+    }
+    .vol::-moz-range-thumb {
+      width: 12px; height: 12px;
+      border-radius: 50%;
+      background: var(--accent);
+      border: none;
+    }
+
+    /* 音频还没传上来时的小提示 */
+    .audio-hint {
+      display: none;
+      margin-top: 14px;
+      padding: 10px 14px;
+      border-radius: 12px;
+      background: rgba(255, 107, 53, 0.12);
+      border: 1px solid rgba(255, 107, 53, 0.35);
+      color: var(--accent-soft);
+      font-size: 12.5px;
+      text-align: left;
+    }
+    .audio-hint.show { display: block; }
+
+    /* 往下滚的提示箭头 */
+    .scroll-hint {
+      position: absolute;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%);
+      color: var(--muted);
+      font-size: 12px;
+      text-decoration: none;
+      letter-spacing: 2px;
+      animation: bob 2s ease-in-out infinite;
+    }
+    @keyframes bob {
+      0%, 100% { transform: translate(-50%, 0); opacity: 0.55; }
+      50%      { transform: translate(-50%, 8px); opacity: 1; }
+    }
+
+    /* ---------- 第二屏：整幅照片 ---------- */
+    .photo-bleed {
+      position: relative;
+      width: 100vw;
+      margin-left: 50%;
+      transform: translateX(-50%);
+      aspect-ratio: 16 / 7;
+      max-height: 520px;
+      overflow: hidden;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+    .photo-bleed img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .photo-bleed figcaption {
+      position: absolute;
+      left: 0; right: 0; bottom: 0;
+      padding: 40px 20px 16px;
+      font-size: 12.5px;
+      color: rgba(255, 255, 255, 0.8);
+      background: linear-gradient(to top, rgba(0, 0, 0, 0.65), transparent);
+      text-align: center;
+    }
+
+    /* ---------- 歌词 ---------- */
+    .lyrics-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 34px clamp(18px, 5vw, 44px);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+    }
+    .lyrics {
+      white-space: pre-line;    /* 保留换行，歌词按原样显示 */
+      font-size: clamp(15px, 2.4vw, 17px);
+      line-height: 2.1;
+      color: #d7dce8;
+      text-align: center;
+      letter-spacing: 0.5px;
+    }
+    .lyrics .placeholder {
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.9;
+      white-space: normal;
+    }
+
+    /* ---------- 小标签 ---------- */
+    .chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px; justify-content: center; }
+    .chip {
+      font-size: 12px;
+      color: var(--accent);
+      border: 1px solid rgba(255, 107, 53, 0.4);
+      border-radius: 999px;
+      padding: 3px 12px;
+      background: rgba(255, 107, 53, 0.08);
+    }
+
+    @media (max-width: 480px) {
+      .player { padding: 14px; }
+      .play-btn { width: 48px; height: 48px; font-size: 19px; }
+      .vol { width: 60px; }
+      .song-hero h1 { letter-spacing: 6px; }
+    }
+
+    /* 尊重系统的"减少动态效果"设置 */
+    @media (prefers-reduced-motion: reduce) {
+      .disc, .song-hero .hero-photo, .scroll-hint { animation: none !important; }
+      .reveal { opacity: 1 !important; transform: none !important; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ======== 导航栏（和其他页面一致） ======== -->
+  <nav>
+    <a class="logo" href="index.html">🦐 范小皮</a>
+    <div>
+      <a href="song-aihecheng.html">爱和城</a>
+      <a href="pipixia.html">皮皮虾</a>
+      <a href="games.html">游戏</a>
+    </div>
+  </nav>
+
+  <!-- ======== 第一屏 ======== -->
+  <header class="song-hero">
+    <div class="hero-photo"></div>
+
+    <div class="disc-wrap">
+      <div class="disc" id="disc">
+        <img src="photos/aihecheng/school-flowers.jpg" alt="爱和城校园">
+      </div>
+    </div>
+
+    <p class="kicker">一首写给爱和城的歌</p>
+    <h1>爱和城</h1>
+    <p class="byline">AI 作词作曲 · 唱给我们的学校</p>
+
+    <!-- ======== 播放器 ======== -->
+    <div class="player">
+      <!-- audio 标签：真正的播放器。preload="metadata" 只先读时长，不浪费流量 -->
+      <audio id="audio" src="audio/aihecheng.mp3" preload="metadata" loop></audio>
+
+      <div class="player-row">
+        <button class="play-btn" id="playBtn" aria-label="播放">▶</button>
+
+        <div class="player-main">
+          <div class="player-title">
+            爱和城
+            <small>范小皮 · 2026</small>
+          </div>
+
+          <div class="progress" id="progress" role="slider" aria-label="播放进度"
+               aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" tabindex="0">
+            <div class="track"><div class="fill" id="fill"></div></div>
+            <div class="knob" id="knob"></div>
+          </div>
+
+          <div class="times">
+            <span id="cur">0:00</span>
+            <span id="dur">--:--</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="player-tools">
+        <span>🔊</span>
+        <input class="vol" id="vol" type="range" min="0" max="1" step="0.01" value="0.85" aria-label="音量">
+        <button class="icon-btn on" id="loopBtn" aria-pressed="true">🔁 单曲循环</button>
+        <a class="icon-btn" id="dlBtn" href="audio/aihecheng.mp3" download>⬇ 下载</a>
+      </div>
+
+      <div class="audio-hint" id="hint">
+        ⏳ 音乐文件还没上传好，播放键暂时没反应。稍等我几分钟。
+      </div>
+    </div>
+
+    <a class="scroll-hint" href="#lyrics">歌词 ↓</a>
+  </header>
+
+  <main>
+
+    <!-- ======== 歌词 ======== -->
+    <section id="lyrics" class="reveal">
+      <h2>歌词</h2>
+      <p class="section-desc">跟着唱，顺便认认路。</p>
+      <div class="lyrics-card">
+        <!-- ↓↓↓ 歌词放这里，改 <div class="lyrics"> 里的文字即可，换行会被保留 ↓↓↓ -->
+        <div class="lyrics">
+          <p class="placeholder">
+            歌词还在路上 🎤<br>
+            （把歌词发我，我贴进来，排版会自动居中对齐）
+          </p>
+        </div>
+      </div>
+      <div class="chips">
+        <span class="chip">AI 作词</span>
+        <span class="chip">AI 作曲</span>
+        <span class="chip">2026</span>
+        <span class="chip">献给爱和城</span>
+      </div>
+    </section>
+
+    <!-- ======== 整幅照片 ======== -->
+    <figure class="photo-bleed reveal">
+      <img src="photos/aihecheng/school-wide.jpg" alt="爱和城校园全景" loading="lazy">
+      <figcaption>面向未来 · 培育孩子</figcaption>
+    </figure>
+
+    <!-- ======== 关于这首歌 ======== -->
+    <section id="about" class="reveal" style="margin-top:80px">
+      <h2>关于这首歌</h2>
+      <p class="section-desc">一首关于爱和城的歌。</p>
+      <div class="card">
+        <p>这首歌的词和曲都是 AI 生成的。我把每天走过的地方——教学楼、操场、走廊——说给它听，它写成了一首歌。</p>
+        <p style="margin-top:12px">出来的东西当然不完全是我心里的样子，但听到副歌那几句时，还是有点被戳到：原来那些琐碎的日子拼起来，是可以被唱出来的。</p>
+        <p style="margin-top:12px">照片是我自己拍的。写歌这件事，就当是给这三年留个"有声的纪念"。</p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    <p>© <span id="year">2026</span> 范小皮 · <a href="index.html" style="color:var(--accent)">回首页</a></p>
+  </footer>
+
+  <script>
+    // ============================================================
+    // 播放器逻辑
+    // 说明给未来的自己看：
+    // 浏览器有一个"防止噪音"的规矩（autoplay 限制）——
+    // 页面刚打开时不允许自动出声，必须用户点一下才行。
+    // 所以这里没有 autoplay，一切靠点播放键。
+    // ============================================================
+    const audio    = document.getElementById("audio");
+    const playBtn  = document.getElementById("playBtn");
+    const progress = document.getElementById("progress");
+    const fill     = document.getElementById("fill");
+    const knob     = document.getElementById("knob");
+    const curEl    = document.getElementById("cur");
+    const durEl    = document.getElementById("dur");
+    const volEl    = document.getElementById("vol");
+    const loopBtn  = document.getElementById("loopBtn");
+    const disc     = document.getElementById("disc");
+    const hint     = document.getElementById("hint");
+
+    // 把秒数变成 3:07 这种格式
+    function fmt(sec) {
+      if (!isFinite(sec) || sec < 0) return "--:--";
+      const m = Math.floor(sec / 60);
+      const s = Math.floor(sec % 60);
+      return m + ":" + String(s).padStart(2, "0");
+    }
+
+    // ---- 播放 / 暂停 ----
+    playBtn.addEventListener("click", async () => {
+      if (audio.paused) {
+        try {
+          await audio.play();          // play() 返回 Promise，可能被浏览器拒绝
+        } catch (err) {
+          hint.classList.add("show");  // 文件没传上去 / 解码失败 → 给个提示
+          console.warn("播放失败：", err);
+        }
+      } else {
+        audio.pause();
+      }
+    });
+
+    // 状态一变，按钮图标和唱片转速跟着变
+    audio.addEventListener("play", () => {
+      playBtn.textContent = "❚❚";     // 暂停符号
+      playBtn.setAttribute("aria-label", "暂停");
+      disc.classList.add("playing");
+      hint.classList.remove("show");
+    });
+    audio.addEventListener("pause", () => {
+      playBtn.textContent = "▶";
+      playBtn.setAttribute("aria-label", "播放");
+      disc.classList.remove("playing");
+    });
+
+    // ---- 时长 ----
+    audio.addEventListener("loadedmetadata", () => {
+      durEl.textContent = fmt(audio.duration);
+      hint.classList.remove("show");
+    });
+    // 音频文件不存在时，浏览器会报 error，这里兜一下
+    audio.addEventListener("error", () => {
+      durEl.textContent = "--:--";
+      hint.classList.add("show");
+    });
+
+    // ---- 进度更新 ----
+    function paint(ratio) {
+      const pct = Math.max(0, Math.min(1, ratio)) * 100;
+      fill.style.width = pct + "%";
+      knob.style.left = pct + "%";
+      progress.setAttribute("aria-valuenow", Math.round(pct));
+    }
+
+    audio.addEventListener("timeupdate", () => {
+      if (dragging) return;            // 用户正在拖的时候不要抢
+      const d = audio.duration || 0;
+      if (d) paint(audio.currentTime / d);
+      curEl.textContent = fmt(audio.currentTime);
+    });
+
+    // ---- 点击 / 拖动进度条 ----
+    let dragging = false;
+    function seekTo(clientX) {
+      const rect = progress.getBoundingClientRect();
+      const ratio = (clientX - rect.left) / rect.width;
+      const d = audio.duration || 0;
+      if (!d) return;
+      audio.currentTime = Math.max(0, Math.min(1, ratio)) * d;
+      paint(ratio);
+      curEl.textContent = fmt(audio.currentTime);
+    }
+
+    progress.addEventListener("pointerdown", (e) => {
+      dragging = true;
+      progress.classList.add("dragging");
+      progress.setPointerCapture(e.pointerId);   // 手指/鼠标移出条子也能继续拖
+      seekTo(e.clientX);
+    });
+    progress.addEventListener("pointermove", (e) => {
+      if (dragging) seekTo(e.clientX);
+    });
+    progress.addEventListener("pointerup", (e) => {
+      dragging = false;
+      progress.classList.remove("dragging");
+      progress.releasePointerCapture?.(e.pointerId);
+    });
+    progress.addEventListener("pointercancel", () => {
+      dragging = false;
+      progress.classList.remove("dragging");
+    });
+    // 键盘也能拖（无障碍）
+    progress.addEventListener("keydown", (e) => {
+      const step = e.shiftKey ? 30 : 5;
+      if (e.key === "ArrowRight") { audio.currentTime += step; e.preventDefault(); }
+      if (e.key === "ArrowLeft")  { audio.currentTime -= step; e.preventDefault(); }
+    });
+
+    // ---- 音量 ----
+    volEl.addEventListener("input", () => { audio.volume = Number(volEl.value); });
+    audio.volume = Number(volEl.value);
+    // 记住上次的音量
+    const savedVol = localStorage.getItem("aihecheng-vol");
+    if (savedVol !== null) { volEl.value = savedVol; audio.volume = Number(savedVol); }
+    volEl.addEventListener("change", () => localStorage.setItem("aihecheng-vol", volEl.value));
+
+    // ---- 单曲循环开关 ----
+    loopBtn.addEventListener("click", () => {
+      audio.loop = !audio.loop;
+      loopBtn.classList.toggle("on", audio.loop);
+      loopBtn.setAttribute("aria-pressed", String(audio.loop));
+      loopBtn.textContent = audio.loop ? "🔁 单曲循环" : "➡ 播完停止";
+    });
+
+    // ---- 空格键播放/暂停（打游戏时会误触，所以输入框里不响应） ----
+    document.addEventListener("keydown", (e) => {
+      if (e.code === "Space" && e.target.tagName !== "INPUT" && e.target.tagName !== "A") {
+        e.preventDefault();
+        playBtn.click();
+      }
+    });
+
+    // ---- 年份 ----
+    document.getElementById("year").textContent = new Date().getFullYear();
+
+    // ---- 滚动出现动画（和首页同一套） ----
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) entry.target.classList.add("visible");
+      });
+    }, { threshold: 0.15 });
+    document.querySelectorAll(".reveal").forEach((el) => observer.observe(el));
+  </script>
+
+</body>
+</html>
